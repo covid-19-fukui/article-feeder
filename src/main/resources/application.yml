@@ -3,12 +3,7 @@ spring:
     name: cio-feeder
   profiles:
     active: default
-  cloud:
-    gcp:
-      firestore:
-        project-id: ${PROJECT_ID}
-        credentials:
-          location: classpath:service_account.json
+    include: prod
 
 
 server:
@@ -21,10 +16,3 @@ server:
 logging.level:
   org.springframework.web.bind.annotation.RestController: debug
 
-extension:
-  api:
-    rss:
-      base-url: https://www.pref.fukui.lg.jp/news.xml
-      connect-timeout: 10000
-      read-timeout: 10000
-      max-in-memory-size: 16777216
