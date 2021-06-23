@@ -1,7 +1,7 @@
-package covid.fukui.rss.articlefeeder.infrastoracture.db.repositoryimpl;
+package covid.fukui.rss.articlefeeder.infrastracture.db.repositoryimpl;
 
 import covid.fukui.rss.articlefeeder.domain.repository.db.FirestoreRepository;
-import covid.fukui.rss.articlefeeder.infrastoracture.db.dto.ArticleCollection;
+import covid.fukui.rss.articlefeeder.infrastracture.db.dto.ArticleCollection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gcp.data.firestore.FirestoreTemplate;
 import org.springframework.stereotype.Repository;

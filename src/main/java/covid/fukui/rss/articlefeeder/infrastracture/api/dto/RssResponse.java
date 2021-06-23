@@ -1,4 +1,4 @@
-package covid.fukui.rss.articlefeeder.infrastoracture.api.dto;
+package covid.fukui.rss.articlefeeder.infrastracture.api.dto;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,7 +1,7 @@
-package covid.fukui.rss.articlefeeder.infrastoracture.api.repositoryimpl;
+package covid.fukui.rss.articlefeeder.infrastracture.api.repositoryimpl;
 
 import covid.fukui.rss.articlefeeder.domain.repository.api.RssRepository;
-import covid.fukui.rss.articlefeeder.infrastoracture.api.dto.RssResponse;
+import covid.fukui.rss.articlefeeder.infrastracture.api.dto.RssResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;

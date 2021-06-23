@@ -1,4 +1,4 @@
-package covid.fukui.rss.articlefeeder.infrastoracture.db.dto;
+package covid.fukui.rss.articlefeeder.infrastracture.db.dto;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;

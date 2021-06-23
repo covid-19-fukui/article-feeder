@@ -1,4 +1,4 @@
-package covid.fukui.rss.articlefeeder.infrastoracture.api.config;
+package covid.fukui.rss.articlefeeder.infrastracture.api.config;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -11,7 +11,7 @@ import lombok.Data;
 public class ApiSetting implements Serializable {
 
     private static final long serialVersionUID = 2591264824531899180L;
-    
+
     /**
      * URL
      */

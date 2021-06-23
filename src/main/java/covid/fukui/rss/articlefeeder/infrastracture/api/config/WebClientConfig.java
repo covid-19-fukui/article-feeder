@@ -1,4 +1,4 @@
-package covid.fukui.rss.articlefeeder.infrastoracture.api.config;
+package covid.fukui.rss.articlefeeder.infrastracture.api.config;
 
 import io.netty.channel.ChannelOption;
 import io.netty.resolver.DefaultAddressResolverGroup;

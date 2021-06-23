@@ -1,6 +1,6 @@
 package covid.fukui.rss.articlefeeder.domain.repository.db;
 
-import covid.fukui.rss.articlefeeder.infrastoracture.db.dto.ArticleCollection;
+import covid.fukui.rss.articlefeeder.infrastracture.db.dto.ArticleCollection;
 import reactor.core.publisher.Flux;
 
 public interface FirestoreRepository {
