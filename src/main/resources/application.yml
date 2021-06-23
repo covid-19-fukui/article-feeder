@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: cio-feeder
+  profiles:
+    active: default
+  cloud:
+    gcp:
+      firestore:
+        project-id: ${PROJECT_ID}
+        credentials:
+          location: classpath:service_account.json
+
+
+server:
+  max-http-header-size: 8KB
+  compression:
+    enabled: true
+    mime-types: application/json
+    min-response-size: 2048
+
+logging.level:
+  org.springframework.web.bind.annotation.RestController: debug
+
+extension:
+  api:
+    rss:
+      base-url: https://www.pref.fukui.lg.jp/news.xml
+      connect-timeout: 10000
+      read-timeout: 10000
+      max-in-memory-size: 16777216

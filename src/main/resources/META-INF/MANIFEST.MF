@@ -1,0 +1,2 @@
+Main-Class: covid.fukui.rss.articlefeeder.ArticleFeederApplication
+
