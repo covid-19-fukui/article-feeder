@@ -61,7 +61,7 @@ public class ArticleService {
         return Article.builder()
                 .title(item.getTitle())
                 .link(item.getLink())
-                .description(item.getLink())
+                .description(item.getDescription())
                 .datetime(dateTime)
                 .build();
     }
