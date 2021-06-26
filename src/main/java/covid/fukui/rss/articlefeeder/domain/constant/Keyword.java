@@ -11,7 +11,9 @@ import org.springframework.lang.NonNull;
 public enum Keyword {
     COVID("コロナ"),
     INFECTION("感染"),
-    SURGICAL_MASK("マスク");
+    SURGICAL_MASK("マスク"),
+    VACCINATION("接種"),
+    VIRUS("ウイルス");
 
     @NonNull
     private final String phrase;

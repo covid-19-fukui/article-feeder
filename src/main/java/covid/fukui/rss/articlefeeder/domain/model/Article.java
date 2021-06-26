@@ -23,8 +23,5 @@ public class Article implements Serializable {
     private final String link;
 
     @NonNull
-    private final String description;
-
-    @NonNull
     private final LocalDateTime datetime;
 }

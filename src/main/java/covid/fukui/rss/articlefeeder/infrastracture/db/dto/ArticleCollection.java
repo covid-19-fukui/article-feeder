@@ -35,9 +35,6 @@ public class ArticleCollection implements Serializable {
     @NonNull
     private final String link;
 
-    @NonNull
-    private final String description;
-
     /**
      * 記事の掲載時刻
      */

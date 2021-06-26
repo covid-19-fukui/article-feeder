@@ -8,7 +8,7 @@ spring:
 extension:
   api:
     rss:
-      base-url: https://www.pref.fukui.lg.jp/news.xml
+      base-url: https://www.fukuishimbun.co.jp/list/feed/rss
       connect-timeout: 10000
       read-timeout: 10000
       max-in-memory-size: 16777216

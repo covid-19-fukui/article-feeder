@@ -37,7 +37,9 @@ public class ArticleService {
     public Flux<ArticleCollection> feedArticles() {
 
         final var articleCollections = rssRepository.getArticles()
-                .map(RssResponse::getItem)
+                .map(RssResponse::getChannel)
+                .map(RssResponse.Channel::getItem)
+                .log()
                 .flatMapMany(Flux::fromIterable)
                 .map(this::buildArticle)
                 .filter(this::isTopicOfCovid19)
@@ -56,12 +58,11 @@ public class ArticleService {
     private Article buildArticle(final RssResponse.Item item) {
 
         final var dateTime =
-                LocalDateTime.parse(item.getDate(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                LocalDateTime.parse(item.getPubDate(), DateTimeFormatter.RFC_1123_DATE_TIME);
 
         return Article.builder()
                 .title(item.getTitle())
                 .link(item.getLink())
-                .description(item.getDescription())
                 .datetime(dateTime)
                 .build();
     }
@@ -86,7 +87,6 @@ public class ArticleService {
                 .articleKey(articleKey)
                 .title(article.getTitle())
                 .link(article.getLink())
-                .description(article.getDescription())
                 .datetime(datetime)
                 .build();
     }
@@ -100,8 +100,7 @@ public class ArticleService {
     private boolean isTopicOfCovid19(final Article article) {
 
         final var title = article.getTitle();
-        final var description = article.getDescription();
 
-        return Keyword.includeKeyword(title) || Keyword.includeKeyword(description);
+        return Keyword.includeKeyword(title);
     }
 }

@@ -16,13 +16,25 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-@XmlRootElement(name = "RDF", namespace = "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+@XmlRootElement(name = "rss")
 public class RssResponse implements Serializable {
 
     private static final long serialVersionUID = -1107810883534940688L;
 
-    @XmlElement(name = "item", namespace = "http://purl.org/rss/1.0/")
-    private List<Item> item;
+    @XmlElement(name = "channel")
+    private Channel channel;
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @ToString
+    public static class Channel implements Serializable {
+
+        private static final long serialVersionUID = -3408525808124122384L;
+
+        @XmlElement(name = "item")
+        private List<Item> item;
+    }
 
     @NoArgsConstructor
     @AllArgsConstructor
@@ -32,16 +44,13 @@ public class RssResponse implements Serializable {
 
         private static final long serialVersionUID = -8175683059155260618L;
 
-        @XmlElement(name = "title", namespace = "http://purl.org/rss/1.0/")
+        @XmlElement(name = "title")
         private String title;
 
-        @XmlElement(name = "link", namespace = "http://purl.org/rss/1.0/")
+        @XmlElement(name = "link")
         private String link;
 
-        @XmlElement(name = "description", namespace = "http://purl.org/rss/1.0/")
-        private String description;
-
-        @XmlElement(name = "date", namespace = "http://purl.org/dc/elements/1.1/")
-        private String date;
+        @XmlElement(name = "pubDate")
+        private String pubDate;
     }
 }
