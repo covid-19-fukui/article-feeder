@@ -80,7 +80,7 @@ public class ArticleService {
 
         final var datetime =
                 Timestamp.of(Date.from(
-                        article.getDatetime().atZone(ZoneId.systemDefault()).toInstant()));
+                        article.getDatetime().atZone(ZoneId.of("Japan")).toInstant()));
 
         return ArticleCollection.builder()
                 .articleKey(articleKey)
