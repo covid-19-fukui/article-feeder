@@ -159,7 +159,9 @@ jacocoTestReport {
                             '**/*Application.class',
                             '**/*Exception.class',
                             '**/config/**',
-                            '**/*Sandbox*.class'
+                            '**/*Sandbox*.class',
+                            '**/function/**',
+                            '**/db/**'
                     ]
             )
         }))

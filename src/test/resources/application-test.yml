@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: default
+
+server:
+  max-http-header-size: 8KB
+  compression:
+    enabled: true
+    mime-types: application/json
+    min-response-size: 2048
+
+extension:
+  api:
+    rss:
+      base-url: https://www.fukuishimbun.co.jp/list/feed/rss
+      connect-timeout: 10000
+      read-timeout: 10000
+      max-in-memory-size: 16777216

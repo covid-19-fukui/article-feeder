@@ -7,6 +7,7 @@ import covid.fukui.rss.articlefeeder.domain.repository.api.RssRepository;
 import covid.fukui.rss.articlefeeder.domain.repository.db.FirestoreRepository;
 import covid.fukui.rss.articlefeeder.infrastracture.api.dto.RssResponse;
 import covid.fukui.rss.articlefeeder.infrastracture.db.dto.ArticleCollection;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -26,7 +27,7 @@ public class ArticleService {
 
     private final FirestoreRepository firestoreRepository;
 
-    private final MessageDigest md5;
+    private final MessageDigest sha256;
 
     /**
      * 記事データを取得し、firestoreに保存する
@@ -39,7 +40,6 @@ public class ArticleService {
         final var articleCollections = rssRepository.getArticles()
                 .map(RssResponse::getChannel)
                 .map(RssResponse.Channel::getItem)
-                .log()
                 .flatMapMany(Flux::fromIterable)
                 .map(this::buildArticle)
                 .filter(this::isTopicOfCovid19)
@@ -57,14 +57,24 @@ public class ArticleService {
     @NonNull
     private Article buildArticle(final RssResponse.Item item) {
 
-        final var dateTime =
-                LocalDateTime.parse(item.getPubDate(), DateTimeFormatter.RFC_1123_DATE_TIME);
+        final var dateTime = parsePubDate(item.getPubDate());
 
         return Article.builder()
                 .title(item.getTitle())
                 .link(item.getLink())
                 .datetime(dateTime)
                 .build();
+    }
+
+    /**
+     * RFC1123形式の日付時刻の文字列をLocalDateTimeに変換
+     *
+     * @param pubDate RFC1123形式の日付時刻の文字列
+     * @return LocalDateTime
+     */
+    @NonNull
+    private LocalDateTime parsePubDate(final String pubDate) {
+        return LocalDateTime.parse(pubDate, DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 
     /**
@@ -76,12 +86,9 @@ public class ArticleService {
     @NonNull
     private ArticleCollection buildArticleCollection(final Article article) {
 
-        final var articleKey =
-                Hex.encodeHexString(md5.digest(article.getTitle().getBytes()));
+        final var articleKey = encryptWithMd5(article.getTitle());
 
-        final var datetime =
-                Timestamp.of(Date.from(
-                        article.getDatetime().atZone(ZoneId.of("Japan")).toInstant()));
+        final var datetime = convertToTimestamp(article.getDatetime());
 
         return ArticleCollection.builder()
                 .articleKey(articleKey)
@@ -92,15 +99,34 @@ public class ArticleService {
     }
 
     /**
+     * 記事タイトルをMd5で暗号化する
+     *
+     * @param title 記事タイトル
+     * @return md5で暗号化されたタイトル
+     */
+    @NonNull
+    private String encryptWithMd5(final String title) {
+        return Hex.encodeHexString(sha256.digest(title.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    /**
+     * LocalDateTimeをTimestampに変換する
+     *
+     * @param datetime LocalDateTime
+     * @return Timestamp
+     */
+    @NonNull
+    private Timestamp convertToTimestamp(final LocalDateTime datetime) {
+        return Timestamp.of(Date.from(datetime.atZone(ZoneId.of("Japan")).toInstant()));
+    }
+
+    /**
      * キーワードのいずれかを含むかどうか判定する
      *
      * @param article 記事
      * @return キーワードを含む場合、trueを返す
      */
     private boolean isTopicOfCovid19(final Article article) {
-
-        final var title = article.getTitle();
-
-        return Keyword.includeKeyword(title);
+        return Keyword.includeKeyword(article.getTitle());
     }
 }

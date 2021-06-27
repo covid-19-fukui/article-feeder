@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>福井新聞</title>
+        <link>https://www.fukuishimbun.co.jp/</link>
+        <description><![CDATA[福井の最新ニュースを提供しています]]></description>
+        <lastBuildDate>Sun, 27 Jun 2021 11:00:48 +0900</lastBuildDate>
+        <docs>https://www.fukuishimbun.co.jp/list/feed/rss</docs>
+        <generator></generator>
+        <category>ローカルニュース</category>
+        <webMaster>fprsweb@fukuishimbun.co.jp</webMaster>
+        <language>ja</language>
+        <image>
+            <url>https://www.fukuishimbun.co.jp/common/images/company_logo.gif</url>
+        </image>
+        <item>
+            <title>新型コロナウイルスのワクチン接種　ファイザー、モデルナ、アストラゼネカ…対象年齢、副反応など違いは？</title>
+            <link>https://www.fukuishimbun.co.jp/articles/-/1336511</link>
+            <pubDate>Sun, 27 Jun 2021 11:00:00 +0900</pubDate>
+            <guid>https://www.fukuishimbun.co.jp/articles/-/1336511</guid>
+            <category>医療,社会</category>
+        </item>
+        <item>
+            <title>企業向けの職場接種と大学接種　対象や申請条件、使用するワクチンは？ 新型コロナ職域接種</title>
+            <link>https://www.fukuishimbun.co.jp/articles/-/1336523</link>
+            <pubDate>Sun, 27 Jun 2021 10:50:00 +0900</pubDate>
+            <guid>https://www.fukuishimbun.co.jp/articles/-/1336523</guid>
+            <category>社会,医療</category>
+        </item>
+    </channel>
+</rss>

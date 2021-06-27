@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 
 @Configuration
-public class Md5Config {
+public class Sha256Config {
 
     /**
      * クロックのbean取得
@@ -19,7 +19,7 @@ public class Md5Config {
     @NonNull
     public MessageDigest md5() throws FailedGenerateBeanException {
         try {
-            return MessageDigest.getInstance("MD5");
+            return MessageDigest.getInstance("SHA-256");
         } catch (final NoSuchAlgorithmException noSuchAlgorithmException) {
             throw new FailedGenerateBeanException("md5のbean生成に失敗しました", noSuchAlgorithmException);
         }

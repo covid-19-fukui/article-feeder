@@ -3,6 +3,7 @@ package covid.fukui.rss.articlefeeder.domain.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -12,6 +13,7 @@ import org.springframework.lang.NonNull;
 @Getter
 @ToString
 @Builder
+@EqualsAndHashCode
 public class Article implements Serializable {
 
     private static final long serialVersionUID = -38646047329248286L;
