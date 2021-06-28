@@ -36,16 +36,18 @@ public class ArticleService {
      */
     @NonNull
     public Flux<ArticleCollection> feedArticles() {
+        return firestoreRepository.insertBulkArticle(getArticles());
+    }
 
-        final var articleCollections = rssRepository.getArticles()
+    @NonNull
+    private Flux<ArticleCollection> getArticles() {
+        return rssRepository.getArticles()
                 .map(RssResponse::getChannel)
                 .map(RssResponse.Channel::getItem)
                 .flatMapMany(Flux::fromIterable)
                 .map(this::buildArticle)
                 .filter(this::isTopicOfCovid19)
                 .map(this::buildArticleCollection);
-
-        return firestoreRepository.insertBulkArticle(articleCollections);
     }
 
     /**
@@ -55,6 +57,7 @@ public class ArticleService {
      * @return Articleドメイン
      */
     @NonNull
+
     private Article buildArticle(final RssResponse.Item item) {
 
         final var dateTime = parsePubDate(item.getPubDate());

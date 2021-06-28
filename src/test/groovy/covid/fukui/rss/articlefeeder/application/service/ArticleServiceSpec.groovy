@@ -37,13 +37,35 @@ class ArticleServiceSpec extends Specification {
                 new RssResponse(
                         channel: new RssResponse.Channel(item: [
                                 new RssResponse.Item(title: 'title1', link: 'link1', pubDate: 'Sun, 27 Jun 2021 08:00:00 +0900'),
-                                new RssResponse.Item(title: 'title2', link: 'link2', pubDate: 'Sun, 27 July 2021 08:00:00 +0900')
+                                new RssResponse.Item(title: 'title2', link: 'link2', pubDate: 'Sat, 26 Jun 2021 08:00:00 +0900')
                         ])))
 
         firestoreRepository.insertBulkArticle(*_) >> Flux.fromIterable(getArticleCollections())
 
         when:
         final actual = sut.feedArticles().collectList().block()
+
+        then:
+        actual == expected
+
+        where:
+        caseName || expected
+        "正常系"    || getArticleCollections()
+    }
+
+    @Unroll
+    final "getArticles #caseName"() {
+        given:
+        // mockを作成する
+        rssRepository.getArticles() >> Mono.just(
+                new RssResponse(
+                        channel: new RssResponse.Channel(item: [
+                                new RssResponse.Item(title: 'ウイルス', link: 'link1', pubDate: 'Sun, 27 Jun 2021 08:00:00 +0900'),
+                                new RssResponse.Item(title: 'ウイルス', link: 'link2', pubDate: 'Sat, 26 Jun 2021 08:00:00 +0900')
+                        ])))
+
+        when:
+        final actual = sut.getArticles().collectList().block()
 
         then:
         actual == expected
@@ -125,8 +147,8 @@ class ArticleServiceSpec extends Specification {
      */
     private static getArticleCollections() {
         return [
-                new ArticleCollection("articleKey1", "title1", "link1", Timestamp.of(new Date(1624748400000L))),
-                new ArticleCollection("articleKey2", "title2", "link2", Timestamp.of(new Date(1627372800000L)))
+                new ArticleCollection("f16f2d47d63947902286a3fadd1424dad42dd25ded9bfca0fdec7b4af8e17fca", "ウイルス", "link1", Timestamp.of(new Date(1624748400000L))),
+                new ArticleCollection("f16f2d47d63947902286a3fadd1424dad42dd25ded9bfca0fdec7b4af8e17fca", "ウイルス", "link2", Timestamp.of(new Date(1624662000000L)))
         ]
     }
 }
