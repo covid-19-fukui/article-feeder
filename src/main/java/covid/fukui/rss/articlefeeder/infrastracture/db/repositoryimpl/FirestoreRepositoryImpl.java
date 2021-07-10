@@ -3,6 +3,7 @@ package covid.fukui.rss.articlefeeder.infrastracture.db.repositoryimpl;
 import covid.fukui.rss.articlefeeder.domain.model.Article;
 import covid.fukui.rss.articlefeeder.domain.repository.db.FirestoreRepository;
 import covid.fukui.rss.articlefeeder.domain.service.TitleService;
+import covid.fukui.rss.articlefeeder.domain.type.Count;
 import covid.fukui.rss.articlefeeder.infrastracture.db.dto.ArticleCollectionDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class FirestoreRepositoryImpl implements FirestoreRepository {
      * {@inheritDoc}
      */
     @Override
-    public Mono<Integer> insertBulkArticle(
+    public Mono<Count> insertBulkArticle(
             final Flux<Article> articles) {
 
         final var articleCollections =
@@ -37,7 +38,8 @@ public class FirestoreRepositoryImpl implements FirestoreRepository {
 
         return firestoreTemplate.saveAll(articleCollections)
                 .collectList()
-                .map(CollectionUtils::size);
+                .map(CollectionUtils::size)
+                .map(Count::from);
     }
 
     /**

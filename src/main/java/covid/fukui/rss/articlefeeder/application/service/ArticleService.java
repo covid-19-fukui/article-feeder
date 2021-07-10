@@ -28,7 +28,7 @@ public class ArticleService {
     @NonNull
     public Mono<Void> feedArticles() {
         return firestoreRepository.insertBulkArticle(getArticles())
-                .doOnNext(count -> log.info("更新された記事数:" + count)).then();
+                .doOnNext(count -> log.info("更新された記事数:" + count.getValue())).then();
     }
 
     /**

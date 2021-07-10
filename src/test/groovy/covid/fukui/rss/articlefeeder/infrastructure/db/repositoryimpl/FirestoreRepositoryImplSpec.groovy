@@ -2,6 +2,7 @@ package covid.fukui.rss.articlefeeder.infrastructure.db.repositoryimpl
 
 import covid.fukui.rss.articlefeeder.domain.model.Article
 import covid.fukui.rss.articlefeeder.domain.service.TitleService
+import covid.fukui.rss.articlefeeder.domain.type.Count
 import covid.fukui.rss.articlefeeder.domain.type.DateTime
 import covid.fukui.rss.articlefeeder.domain.type.Title
 import covid.fukui.rss.articlefeeder.infrastracture.db.dto.ArticleCollectionDto
@@ -42,6 +43,6 @@ class FirestoreRepositoryImplSpec extends Specification {
         final actual = sut.insertBulkArticle(articles).block()
 
         then:
-        actual == 2
+        actual == new Count(2)
     }
 }
