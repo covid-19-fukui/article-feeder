@@ -45,7 +45,7 @@ jobs:
         run: |
           echo $FUNCTION_STG_ENV | base64 -d > env.yaml
           gcloud functions deploy article-feeder \
-            --project $GCP_SA_PROJECT_STG_ID \
+            --project $GCP_SA_STG_PROJECT_ID \
             --quiet \
             --entry-point=org.springframework.cloud.function.adapter.gcp.GcfJarLauncher \
             --trigger-topic=rss \
