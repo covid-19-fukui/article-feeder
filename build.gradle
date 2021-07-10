@@ -52,6 +52,8 @@ dependencies {
             'org.springframework.cloud:spring-cloud-function-adapter-gcp:3.1.2',
             // commons-lang3
             'org.apache.commons:commons-lang3:3.11',
+            // collections4
+            'org.apache.commons:commons-collections4:4.4',
             // com.squareup.okhttp3
             "com.squareup.okhttp3:okhttp:4.9.0",
             // google cloud function for test
@@ -88,12 +90,6 @@ dependencies {
     )
 
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1'
-}
-
-// bootRun タスクの設定を追加する
-bootRun {
-    // プロファイルを指定する
-    jvmArgs = ['-Dspring.profiles.active=prod']
 }
 
 test {
@@ -160,8 +156,7 @@ jacocoTestReport {
                             '**/*Exception.class',
                             '**/config/**',
                             '**/*Sandbox*.class',
-                            '**/function/**',
-                            '**/db/**'
+                            '**/function/**'
                     ]
             )
         }))

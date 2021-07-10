@@ -3,6 +3,7 @@ package covid.fukui.rss.articlefeeder.infrastracture.db.dto;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.ServerTimestamp;
+import covid.fukui.rss.articlefeeder.domain.model.Article;
 import java.io.Serializable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,7 +19,7 @@ import org.springframework.lang.NonNull;
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class ArticleCollection implements Serializable {
+public class ArticleCollectionDto implements Serializable {
 
     private static final long serialVersionUID = 5512989128146219528L;
 
@@ -42,4 +43,22 @@ public class ArticleCollection implements Serializable {
     @ServerTimestamp
     private final Timestamp datetime;
 
+    /**
+     * ArticleCollectionの生成
+     *
+     * @param article Articleドメイン
+     * @return ArticleCollection
+     */
+    @NonNull
+    public static ArticleCollectionDto from(final Article article, final String articleKey) {
+
+        final var datetime = article.getDatetime().convertToTimestamp();
+
+        return ArticleCollectionDto.builder()
+                .articleKey(articleKey)
+                .title(article.getTitle().toString())
+                .link(article.getLink())
+                .datetime(datetime)
+                .build();
+    }
 }
