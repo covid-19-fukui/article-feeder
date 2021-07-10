@@ -9,9 +9,9 @@ on:
         default: warning
 
 env:
-  FUNCTION_ENV: ${{ secrets.FUNCTION_STG_ENV }}
-  GCP_SA_KEY: ${{ secrets.GCP_SA_STG_KEY }}
-  GCP_SA_PROJECT_ID: ${{ secrets.GCP_SA_STG_PROJECT_ID }}
+  FUNCTION_STG_ENV: ${{ secrets.FUNCTION_STG_ENV }}
+  GCP_SA_STG_KEY: ${{ secrets.GCP_SA_STG_KEY }}
+  GCP_SA_STG_PROJECT_ID: ${{ secrets.GCP_SA_STG_PROJECT_ID }}
 
 jobs:
   deploy:
