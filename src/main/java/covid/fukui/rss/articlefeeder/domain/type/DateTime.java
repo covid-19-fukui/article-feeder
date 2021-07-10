@@ -32,12 +32,15 @@ public class DateTime implements Serializable {
      * @return DateTimeの型インスタンス
      */
     @NonNull
-    public static DateTime from(@NonNull final String value) {
+    public static DateTime from(final String value) {
         try {
             return new DateTime(LocalDateTime.parse(value, DateTimeFormatter.RFC_1123_DATE_TIME));
         } catch (final DateTimeParseException dateTimeParseException) {
             throw new InvalidDateTimeFormatException("文字列がRFC1123の日付フォーマットに準拠していません。",
                     dateTimeParseException);
+        } catch (final NullPointerException nullPointerException) {
+            throw new InvalidDateTimeFormatException("文字列がnullです。",
+                    nullPointerException);
         }
     }
 

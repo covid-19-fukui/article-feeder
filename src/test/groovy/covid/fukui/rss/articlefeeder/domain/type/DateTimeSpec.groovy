@@ -23,13 +23,18 @@ class DateTimeSpec extends Specification {
     }
 
     @Unroll
-    final "ファクトリメソッド - 例外発生"() {
+    final "ファクトリメソッド - 例外発生 - #caseName"() {
         when:
-        DateTime.from("hoge")
+        DateTime.from(value)
 
         then:
         final exception = thrown(InvalidDateTimeFormatException)
-        exception.getMessage() == "文字列がRFC1123の日付フォーマットに準拠していません。"
+        exception.getMessage() == expected
+
+        where:
+        caseName                 | value  || expected
+        "DateTimeParseException" | "hoge" || "文字列がRFC1123の日付フォーマットに準拠していません。"
+        "NullPointerException"   | null   || "文字列がnullです。"
     }
 
     @Unroll
