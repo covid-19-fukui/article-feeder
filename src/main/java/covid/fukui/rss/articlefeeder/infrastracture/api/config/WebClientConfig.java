@@ -48,7 +48,7 @@ public class WebClientConfig {
     /**
      * 福井新聞RSSの取得エンドポイント
      *
-     * @return UDB
+     * @return api設定値
      */
     @Bean
     @ConfigurationProperties(prefix = "extension.api.rss")

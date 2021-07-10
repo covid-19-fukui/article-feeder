@@ -5,7 +5,7 @@ spring:
       firestore:
         project-id: ${PROJECT_ID}
         credentials:
-          location: classpath:service_account.json
+          location: classpath:service_account_stg.json
 
 extension:
   api:

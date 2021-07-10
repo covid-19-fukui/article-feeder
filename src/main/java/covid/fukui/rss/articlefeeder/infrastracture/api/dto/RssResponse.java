@@ -1,11 +1,14 @@
 package covid.fukui.rss.articlefeeder.infrastracture.api.dto;
 
+import covid.fukui.rss.articlefeeder.domain.model.Article;
+import covid.fukui.rss.articlefeeder.domain.type.DateTime;
+import covid.fukui.rss.articlefeeder.domain.type.Title;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +20,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
 @XmlRootElement(name = "rss")
 @EqualsAndHashCode
 public class RssResponse implements Serializable {
@@ -29,23 +31,29 @@ public class RssResponse implements Serializable {
 
     @NoArgsConstructor
     @AllArgsConstructor
-    @Getter
-    @ToString
     @EqualsAndHashCode
+    @ToString
     public static class Channel implements Serializable {
 
         private static final long serialVersionUID = -3408525808124122384L;
 
         @XmlElement(name = "item")
-        private List<Item> item;
+        private List<Item> items;
+
+        /**
+         * 変更不可なitemのリストを返す
+         *
+         * @return itemのリスト(変更不可)
+         */
+        public List<Item> getItems() {
+            return Collections.unmodifiableList(items);
+        }
     }
 
     @NoArgsConstructor
     @AllArgsConstructor
-    @Getter
-    @ToString
     @EqualsAndHashCode
-    @Builder
+    @ToString
     public static class Item implements Serializable {
 
         private static final long serialVersionUID = -8175683059155260618L;
@@ -58,5 +66,15 @@ public class RssResponse implements Serializable {
 
         @XmlElement(name = "pubDate")
         private String pubDate;
+
+        /**
+         * Articleドメインを生成する
+         *
+         * @return Articleドメイン
+         */
+        public Article convertToArticle() {
+            return Article
+                    .of(Title.from(title), link, DateTime.from(pubDate));
+        }
     }
 }
