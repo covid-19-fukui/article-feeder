@@ -8,12 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 @ToString
 @Getter
+@Slf4j
 public class Count implements Serializable {
 
 
@@ -37,5 +39,12 @@ public class Count implements Serializable {
         } else {
             throw new InvalidArgumentException("数値が負数です。");
         }
+    }
+
+    /**
+     * カウントの値をログ出力する
+     */
+    public void logCount() {
+        log.info("更新された記事数:" + value);
     }
 }

@@ -55,7 +55,6 @@ public class FirestoreRepositoryImpl implements FirestoreRepository {
      */
     @NonNull
     private ArticleCollectionDto buildArticleCollection(final Article article) {
-
         final var articleKey = titleDomainService.encryptWithSha256(article.getOriginalTitle());
 
         return ArticleCollectionDto.from(article, articleKey);

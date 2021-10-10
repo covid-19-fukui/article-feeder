@@ -2,10 +2,10 @@ package covid.fukui.rss.articlefeeder.application.service;
 
 import covid.fukui.rss.articlefeeder.domain.model.article.Article;
 import covid.fukui.rss.articlefeeder.domain.model.article.Articles;
+import covid.fukui.rss.articlefeeder.domain.model.type.Count;
 import covid.fukui.rss.articlefeeder.domain.repository.api.RssRepository;
 import covid.fukui.rss.articlefeeder.domain.repository.db.FirestoreRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ArticleService {
 
     private final RssRepository rssRepository;
@@ -30,7 +29,7 @@ public class ArticleService {
         final var articles = getArticles();
 
         return firestoreRepository.insertBulkArticle(articles)
-                .doOnNext(count -> log.info("更新された記事数:" + count.getValue())).then();
+                .doOnNext(Count::logCount).then();
     }
 
     /**
