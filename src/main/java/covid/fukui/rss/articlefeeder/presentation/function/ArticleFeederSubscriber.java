@@ -1,7 +1,8 @@
 package covid.fukui.rss.articlefeeder.presentation.function;
 
 import covid.fukui.rss.articlefeeder.application.service.ArticleService;
-import covid.fukui.rss.articlefeeder.presentation.function.dto.PubSubMessage;
+import covid.fukui.rss.articlefeeder.exception.FailedSaveArticleException;
+import covid.fukui.rss.articlefeeder.presentation.dto.PubSubMessage;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class ArticleFeederSubscriber {
      */
     @Bean
     @NonNull
-    public Consumer<PubSubMessage> pubSubFunction() {
+    public Consumer<PubSubMessage> pubSubFunction() throws FailedSaveArticleException {
         return message -> {
             log.info("更新開始");
 

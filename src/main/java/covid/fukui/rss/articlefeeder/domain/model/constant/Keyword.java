@@ -1,4 +1,4 @@
-package covid.fukui.rss.articlefeeder.domain.constant;
+package covid.fukui.rss.articlefeeder.domain.model.constant;
 
 import java.util.Arrays;
 import lombok.Getter;

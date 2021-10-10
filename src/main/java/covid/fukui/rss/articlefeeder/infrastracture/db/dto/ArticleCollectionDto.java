@@ -3,7 +3,8 @@ package covid.fukui.rss.articlefeeder.infrastracture.db.dto;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.ServerTimestamp;
-import covid.fukui.rss.articlefeeder.domain.model.Article;
+import covid.fukui.rss.articlefeeder.domain.model.article.Article;
+import covid.fukui.rss.articlefeeder.domain.model.type.title.EncryptedTitle;
 import java.io.Serializable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -50,14 +51,15 @@ public class ArticleCollectionDto implements Serializable {
      * @return ArticleCollection
      */
     @NonNull
-    public static ArticleCollectionDto from(final Article article, final String articleKey) {
+    public static ArticleCollectionDto from(final Article article,
+                                            final EncryptedTitle articleKey) {
 
         final var datetime = article.getDatetime().convertToTimestamp();
 
         return ArticleCollectionDto.builder()
-                .articleKey(articleKey)
-                .title(article.getTitle().toString())
-                .link(article.getLink())
+                .articleKey(articleKey.toString())
+                .title(article.getOriginalTitle().toString())
+                .link(article.getLink().toString())
                 .datetime(datetime)
                 .build();
     }

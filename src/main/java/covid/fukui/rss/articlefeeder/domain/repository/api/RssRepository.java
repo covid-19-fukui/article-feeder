@@ -1,6 +1,6 @@
 package covid.fukui.rss.articlefeeder.domain.repository.api;
 
-import covid.fukui.rss.articlefeeder.domain.model.Article;
+import covid.fukui.rss.articlefeeder.domain.model.article.Article;
 import reactor.core.publisher.Flux;
 
 public interface RssRepository {

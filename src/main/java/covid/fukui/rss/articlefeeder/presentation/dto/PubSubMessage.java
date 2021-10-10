@@ -1,4 +1,4 @@
-package covid.fukui.rss.articlefeeder.presentation.function.dto;
+package covid.fukui.rss.articlefeeder.presentation.dto;
 
 import java.io.Serializable;
 import java.util.Map;

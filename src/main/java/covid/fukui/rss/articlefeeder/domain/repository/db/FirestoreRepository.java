@@ -1,7 +1,7 @@
 package covid.fukui.rss.articlefeeder.domain.repository.db;
 
-import covid.fukui.rss.articlefeeder.domain.model.Article;
-import covid.fukui.rss.articlefeeder.domain.type.Count;
+import covid.fukui.rss.articlefeeder.domain.model.article.Article;
+import covid.fukui.rss.articlefeeder.domain.model.type.Count;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

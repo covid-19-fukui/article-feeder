@@ -1,7 +1,7 @@
-package covid.fukui.rss.articlefeeder.domain.type
+package covid.fukui.rss.articlefeeder.domain.model.type
 
 import com.google.cloud.Timestamp
-import covid.fukui.rss.articlefeeder.exception.InvalidDateTimeFormatException
+import covid.fukui.rss.articlefeeder.exception.InvalidArgumentException
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -28,7 +28,7 @@ class DateTimeSpec extends Specification {
         DateTime.from(value)
 
         then:
-        final exception = thrown(InvalidDateTimeFormatException)
+        final exception = thrown(InvalidArgumentException)
         exception.getMessage() == expected
 
         where:

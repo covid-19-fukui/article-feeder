@@ -1,7 +1,7 @@
-package covid.fukui.rss.articlefeeder.domain.type;
+package covid.fukui.rss.articlefeeder.domain.model.type;
 
 import com.google.cloud.Timestamp;
-import covid.fukui.rss.articlefeeder.exception.InvalidDateTimeFormatException;
+import covid.fukui.rss.articlefeeder.exception.InvalidArgumentException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -32,14 +32,14 @@ public class DateTime implements Serializable {
      * @return DateTimeの型インスタンス
      */
     @NonNull
-    public static DateTime from(final String value) {
+    public static DateTime from(final String value) throws InvalidArgumentException {
         try {
             return new DateTime(LocalDateTime.parse(value, DateTimeFormatter.RFC_1123_DATE_TIME));
         } catch (final DateTimeParseException dateTimeParseException) {
-            throw new InvalidDateTimeFormatException("文字列がRFC1123の日付フォーマットに準拠していません。",
+            throw new InvalidArgumentException("文字列がRFC1123の日付フォーマットに準拠していません。",
                     dateTimeParseException);
         } catch (final NullPointerException nullPointerException) {
-            throw new InvalidDateTimeFormatException("文字列がnullです。",
+            throw new InvalidArgumentException("文字列がnullです。",
                     nullPointerException);
         }
     }

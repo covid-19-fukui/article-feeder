@@ -1,8 +1,9 @@
 package covid.fukui.rss.articlefeeder.infrastracture.api.dto;
 
-import covid.fukui.rss.articlefeeder.domain.model.Article;
-import covid.fukui.rss.articlefeeder.domain.type.DateTime;
-import covid.fukui.rss.articlefeeder.domain.type.Title;
+import covid.fukui.rss.articlefeeder.domain.model.article.Article;
+import covid.fukui.rss.articlefeeder.domain.model.type.DateTime;
+import covid.fukui.rss.articlefeeder.domain.model.type.Link;
+import covid.fukui.rss.articlefeeder.domain.model.type.title.OriginalTitle;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -74,7 +75,7 @@ public class RssResponse implements Serializable {
          */
         public Article convertToArticle() {
             return Article
-                    .of(Title.from(title), link, DateTime.from(pubDate));
+                    .of(OriginalTitle.from(title), Link.from(link), DateTime.from(pubDate));
         }
     }
 }

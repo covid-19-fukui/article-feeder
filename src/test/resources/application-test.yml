@@ -1,6 +1,8 @@
 spring:
-  profiles:
-    active: default
+  cloud:
+    gcp:
+      firestore:
+        enabled: false
 
 server:
   max-http-header-size: 8KB

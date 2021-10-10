@@ -1,7 +1,8 @@
 package covid.fukui.rss.articlefeeder.infrastracture.api.repositoryimpl;
 
-import covid.fukui.rss.articlefeeder.domain.model.Article;
+import covid.fukui.rss.articlefeeder.domain.model.article.Article;
 import covid.fukui.rss.articlefeeder.domain.repository.api.RssRepository;
+import covid.fukui.rss.articlefeeder.exception.FailedFetchArticleException;
 import covid.fukui.rss.articlefeeder.infrastracture.api.dto.RssResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,9 @@ public class RssRepositoryImpl implements RssRepository {
     public Flux<Article> getArticles() {
 
         final Mono<RssResponse> articlesMono =
-                rssClient.get().retrieve().bodyToMono(RssResponse.class);
+                rssClient.get().retrieve().bodyToMono(RssResponse.class).onErrorResume(
+                        exception -> Mono.error(new FailedFetchArticleException("記事の取得に失敗しました:",
+                                exception)));
 
         return articlesMono.map(RssResponse::getChannel)
                 .map(RssResponse.Channel::getItems)

@@ -1,7 +1,7 @@
 package covid.fukui.rss.articlefeeder.application.service;
 
-import covid.fukui.rss.articlefeeder.domain.model.Article;
-import covid.fukui.rss.articlefeeder.domain.model.Articles;
+import covid.fukui.rss.articlefeeder.domain.model.article.Article;
+import covid.fukui.rss.articlefeeder.domain.model.article.Articles;
 import covid.fukui.rss.articlefeeder.domain.repository.api.RssRepository;
 import covid.fukui.rss.articlefeeder.domain.repository.db.FirestoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,9 @@ public class ArticleService {
      */
     @NonNull
     public Mono<Void> feedArticles() {
-        return firestoreRepository.insertBulkArticle(getArticles())
+        final var articles = getArticles();
+
+        return firestoreRepository.insertBulkArticle(articles)
                 .doOnNext(count -> log.info("更新された記事数:" + count.getValue())).then();
     }
 
@@ -38,8 +40,6 @@ public class ArticleService {
      */
     @NonNull
     private Flux<Article> getArticles() {
-        return Articles.from(rssRepository.getArticles()).getCovid19Articles();
+        return Articles.from(rssRepository.getArticles()).filterCovid19AsFlux();
     }
-
-
 }

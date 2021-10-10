@@ -1,4 +1,4 @@
-package covid.fukui.rss.articlefeeder.domain.model;
+package covid.fukui.rss.articlefeeder.domain.model.article;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux;
 @ToString
 public class Articles {
 
-    private final Flux<Article> articleFlux;
+    private final Flux<Article> articles;
 
     /**
      * 記事情報リストのファクトリメソッド
@@ -26,12 +26,12 @@ public class Articles {
     }
 
     /**
-     * コロナウイルス関連記事のみ抽出する
+     * コロナウイルス関連記事にフィルタリングする
      *
      * @return コロナウイルス関連記事リスト(Flux)
      */
     @NonNull
-    public Flux<Article> getCovid19Articles() {
-        return articleFlux.filter(Article::isTopicOfCovid19);
+    public Flux<Article> filterCovid19AsFlux() {
+        return articles.filter(Article::isTopicOfCovid19);
     }
 }

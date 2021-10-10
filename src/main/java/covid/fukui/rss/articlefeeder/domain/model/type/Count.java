@@ -1,6 +1,6 @@
-package covid.fukui.rss.articlefeeder.domain.type;
+package covid.fukui.rss.articlefeeder.domain.model.type;
 
-import covid.fukui.rss.articlefeeder.exception.InvalidCountException;
+import covid.fukui.rss.articlefeeder.exception.InvalidArgumentException;
 import java.io.Serializable;
 import java.time.ZoneId;
 import lombok.AccessLevel;
@@ -30,12 +30,12 @@ public class Count implements Serializable {
      * @return DateTimeの型インスタンス
      */
     @NonNull
-    public static Count from(final int value) {
+    public static Count from(final int value) throws InvalidArgumentException {
 
         if (value >= 0) {
             return new Count(value);
         } else {
-            throw new InvalidCountException("数値が負数です。");
+            throw new InvalidArgumentException("数値が負数です。");
         }
     }
 }

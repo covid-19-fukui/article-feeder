@@ -1,6 +1,6 @@
-package covid.fukui.rss.articlefeeder.domain.type
+package covid.fukui.rss.articlefeeder.domain.model.type
 
-import covid.fukui.rss.articlefeeder.exception.InvalidCountException
+import covid.fukui.rss.articlefeeder.exception.InvalidArgumentException
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -25,7 +25,7 @@ class CountSpec extends Specification {
         Count.from(value)
 
         then:
-        final exception = thrown(InvalidCountException)
+        final exception = thrown(InvalidArgumentException)
         exception.getMessage() == expected
 
         where:
