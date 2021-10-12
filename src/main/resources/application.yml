@@ -1,18 +1,18 @@
 spring:
   application:
     name: cio-feeder
+  main:
+    banner-mode: off
+  messages:
+    encoding: UTF-8
+  web:
+    locale: ja_JP
   profiles:
-    active: default
     include: prod
-
-
-server:
-  max-http-header-size: 8KB
-  compression:
-    enabled: true
-    mime-types: application/json
-    min-response-size: 2048
-
-logging.level:
-  org.springframework.web.bind.annotation.RestController: debug
-
+    group:
+      local:
+        - local
+        - rss
+      prod:
+        - prod
+        - rss

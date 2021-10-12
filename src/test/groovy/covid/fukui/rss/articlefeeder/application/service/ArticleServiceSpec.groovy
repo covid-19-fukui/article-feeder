@@ -1,11 +1,12 @@
 package covid.fukui.rss.articlefeeder.application.service
 
-import covid.fukui.rss.articlefeeder.domain.model.Article
+import covid.fukui.rss.articlefeeder.domain.model.article.Article
+import covid.fukui.rss.articlefeeder.domain.model.article.SavedArticleCount
+import covid.fukui.rss.articlefeeder.domain.model.type.DateTime
+import covid.fukui.rss.articlefeeder.domain.model.type.Link
+import covid.fukui.rss.articlefeeder.domain.model.type.title.OriginalTitle
 import covid.fukui.rss.articlefeeder.domain.repository.api.RssRepository
 import covid.fukui.rss.articlefeeder.domain.repository.db.FirestoreRepository
-import covid.fukui.rss.articlefeeder.domain.type.Count
-import covid.fukui.rss.articlefeeder.domain.type.DateTime
-import covid.fukui.rss.articlefeeder.domain.type.Title
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.Specification
@@ -30,13 +31,13 @@ class ArticleServiceSpec extends Specification {
         given:
         // mockを作成する
         rssRepository.getArticles() >> Flux.fromIterable([
-                new Article(new Title("title1"), "link1", new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00))),
-                new Article(new Title("title2"), "link2", new DateTime(LocalDateTime.of(2021, 07, 02, 00, 00, 00)))
+                new Article(new OriginalTitle("title1"), Link.from("https://localhost"), new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00))),
+                new Article(new OriginalTitle("title2"), Link.from("https://localhost"), new DateTime(LocalDateTime.of(2021, 07, 02, 00, 00, 00)))
         ])
 
         final expected = Mono.empty().then().block()
 
-        firestoreRepository.insertBulkArticle(*_) >> Mono.just(new Count(2))
+        firestoreRepository.insertBulkArticle(*_) >> Mono.just(new SavedArticleCount(2))
 
         expect:
         sut.feedArticles().block() == expected
@@ -47,8 +48,8 @@ class ArticleServiceSpec extends Specification {
         given:
         // mockを作成する
         rssRepository.getArticles() >> Flux.fromIterable([
-                new Article(new Title("コロナ"), "link1", new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00))),
-                new Article(new Title("title2"), "link2", new DateTime(LocalDateTime.of(2021, 07, 02, 00, 00, 00)))
+                new Article(new OriginalTitle("コロナ"), Link.from("https://localhost"), new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00))),
+                new Article(new OriginalTitle("title2"), Link.from("https://localhost2"), new DateTime(LocalDateTime.of(2021, 07, 02, 00, 00, 00)))
         ])
 
         when:
@@ -56,7 +57,7 @@ class ArticleServiceSpec extends Specification {
 
         then:
         actual == [
-                new Article(new Title("コロナ"), "link1", new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00))),
+                new Article(new OriginalTitle("コロナ"), Link.from("https://localhost"), new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00))),
         ]
     }
 }

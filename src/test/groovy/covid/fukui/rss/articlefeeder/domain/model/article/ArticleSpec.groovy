@@ -1,8 +1,9 @@
-package covid.fukui.rss.articlefeeder.domain.model
+package covid.fukui.rss.articlefeeder.domain.model.article
 
-import covid.fukui.rss.articlefeeder.domain.model.Article
-import covid.fukui.rss.articlefeeder.domain.type.DateTime
-import covid.fukui.rss.articlefeeder.domain.type.Title
+
+import covid.fukui.rss.articlefeeder.domain.model.type.DateTime
+import covid.fukui.rss.articlefeeder.domain.model.type.Link
+import covid.fukui.rss.articlefeeder.domain.model.type.title.OriginalTitle
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -13,13 +14,13 @@ class ArticleSpec extends Specification {
     @Unroll
     final "ファクトリメソッド #caseName"() {
         when:
-        final sut = Article.of(new Title(title), link, new DateTime(datetime))
+        final sut = Article.of(new OriginalTitle(title), new Link(link), new DateTime(datetime))
 
         then:
         verifyAll(sut) {
-            sut.title == new Title(expectedTitle)
+            sut.originalTitle == new OriginalTitle(expectedTitle)
             sut.datetime == new DateTime(expectedDateTime)
-            sut.link == expectedLink
+            sut.link == new Link(expectedLink)
         }
 
         where:
@@ -30,7 +31,7 @@ class ArticleSpec extends Specification {
     @Unroll
     final "isTopicOfCovid19() #caseName"() {
         when:
-        final sut = new Article(new Title(title), "link", new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00)))
+        final sut = new Article(new OriginalTitle(title), new Link("link"), new DateTime(LocalDateTime.of(2021, 07, 01, 00, 00, 00)))
 
         then:
         sut.isTopicOfCovid19() == expected

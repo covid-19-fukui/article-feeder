@@ -1,17 +1,20 @@
 package covid.fukui.rss.articlefeeder.infrastracture.db.repositoryimpl;
 
-import covid.fukui.rss.articlefeeder.domain.model.Article;
+import covid.fukui.rss.articlefeeder.domain.model.article.Article;
+import covid.fukui.rss.articlefeeder.domain.model.article.Articles;
+import covid.fukui.rss.articlefeeder.domain.model.article.SavedArticleCount;
 import covid.fukui.rss.articlefeeder.domain.repository.db.FirestoreRepository;
-import covid.fukui.rss.articlefeeder.domain.service.TitleService;
-import covid.fukui.rss.articlefeeder.domain.type.Count;
+import covid.fukui.rss.articlefeeder.domain.service.TitleDomainService;
+import covid.fukui.rss.articlefeeder.exception.FailedSaveArticleException;
 import covid.fukui.rss.articlefeeder.infrastracture.db.dto.ArticleCollectionDto;
+import covid.fukui.rss.articlefeeder.infrastracture.db.dto.ArticleCollectionsDto;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.gcp.data.firestore.FirestoreTemplate;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -24,22 +27,34 @@ public class FirestoreRepositoryImpl implements FirestoreRepository {
 
     private final FirestoreTemplate firestoreTemplate;
 
-    private final TitleService titleService;
+    private final TitleDomainService titleDomainService;
 
     /**
      * {@inheritDoc}
+     *
+     * @param articles Articleドメイン
      */
     @Override
-    public Mono<Count> insertBulkArticle(
-            final Flux<Article> articles) {
+    public Mono<SavedArticleCount> insertBulkArticle(
+            final Articles articles) {
 
-        final var articleCollections =
-                articles.map(this::buildArticleCollection);
+        final var articleCollectionsDto = articles
+                .asStream()
+                .map(this::buildArticleCollection)
+                .collect(Collectors.toUnmodifiableList());
 
-        return firestoreTemplate.saveAll(articleCollections)
-                .collectList()
-                .map(CollectionUtils::size)
-                .map(Count::from);
+        final var articleCollections = ArticleCollectionsDto
+                .from(articleCollectionsDto).asFlux();
+
+        final Mono<List<ArticleCollectionDto>> savedArticleCollectionListMono = firestoreTemplate
+                .saveAll(articleCollections)
+                .onErrorResume(exception -> Mono.error(
+                        new FailedSaveArticleException("記事の保存に失敗しました:", exception)))
+                .collectList();
+
+        return savedArticleCollectionListMono
+                .map(ArticleCollectionsDto::from)
+                .map(ArticleCollectionsDto::size);
     }
 
     /**
@@ -50,8 +65,7 @@ public class FirestoreRepositoryImpl implements FirestoreRepository {
      */
     @NonNull
     private ArticleCollectionDto buildArticleCollection(final Article article) {
-
-        final var articleKey = titleService.encryptWithMd5(article.getTitle());
+        final var articleKey = titleDomainService.encryptWithSha256(article.getOriginalTitle());
 
         return ArticleCollectionDto.from(article, articleKey);
     }
