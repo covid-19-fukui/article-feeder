@@ -1,7 +1,7 @@
 package covid.fukui.rss.articlefeeder.infrastructure.db.repositoryimpl
 
 import covid.fukui.rss.articlefeeder.domain.model.article.Article
-import covid.fukui.rss.articlefeeder.domain.model.type.Count
+import covid.fukui.rss.articlefeeder.domain.model.article.SavedArticleCount
 import covid.fukui.rss.articlefeeder.domain.model.type.DateTime
 import covid.fukui.rss.articlefeeder.domain.model.type.Link
 import covid.fukui.rss.articlefeeder.domain.model.type.title.EncryptedTitle
@@ -45,6 +45,6 @@ class FirestoreRepositoryImplSpec extends Specification {
         final actual = sut.insertBulkArticle(articles).block()
 
         then:
-        actual == new Count(2)
+        actual == new SavedArticleCount(2)
     }
 }

@@ -1,7 +1,7 @@
 package covid.fukui.rss.articlefeeder.application.service
 
 import covid.fukui.rss.articlefeeder.domain.model.article.Article
-import covid.fukui.rss.articlefeeder.domain.model.type.Count
+import covid.fukui.rss.articlefeeder.domain.model.article.SavedArticleCount
 import covid.fukui.rss.articlefeeder.domain.model.type.DateTime
 import covid.fukui.rss.articlefeeder.domain.model.type.Link
 import covid.fukui.rss.articlefeeder.domain.model.type.title.OriginalTitle
@@ -37,7 +37,7 @@ class ArticleServiceSpec extends Specification {
 
         final expected = Mono.empty().then().block()
 
-        firestoreRepository.insertBulkArticle(*_) >> Mono.just(new Count(2))
+        firestoreRepository.insertBulkArticle(*_) >> Mono.just(new SavedArticleCount(2))
 
         expect:
         sut.feedArticles().block() == expected

@@ -18,7 +18,6 @@ public class Link implements Serializable {
 
     private final String value;
 
-
     /**
      * ファクトリメソッド
      *

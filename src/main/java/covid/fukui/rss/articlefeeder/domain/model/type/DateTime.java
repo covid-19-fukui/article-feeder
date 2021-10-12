@@ -34,7 +34,10 @@ public class DateTime implements Serializable {
     @NonNull
     public static DateTime from(final String value) throws InvalidArgumentException {
         try {
-            return new DateTime(LocalDateTime.parse(value, DateTimeFormatter.RFC_1123_DATE_TIME));
+            final var localDateTime =
+                    LocalDateTime.parse(value, DateTimeFormatter.RFC_1123_DATE_TIME);
+
+            return new DateTime(localDateTime);
         } catch (final DateTimeParseException dateTimeParseException) {
             throw new InvalidArgumentException("文字列がRFC1123の日付フォーマットに準拠していません。",
                     dateTimeParseException);
@@ -61,6 +64,8 @@ public class DateTime implements Serializable {
      */
     @NonNull
     public Timestamp convertToTimestamp() {
-        return Timestamp.of(Date.from(convertToLocalDate().atZone(JAPAN_ZONE_ID).toInstant()));
+        final var instant = value.atZone(JAPAN_ZONE_ID).toInstant();
+
+        return Timestamp.of(Date.from(instant));
     }
 }

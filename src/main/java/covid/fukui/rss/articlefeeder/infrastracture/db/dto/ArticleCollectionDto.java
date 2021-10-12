@@ -8,14 +8,12 @@ import covid.fukui.rss.articlefeeder.domain.model.type.title.EncryptedTitle;
 import java.io.Serializable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.cloud.gcp.data.firestore.Document;
 import org.springframework.lang.NonNull;
 
 @Document(collectionName = "article")
-@Getter
 @ToString
 @RequiredArgsConstructor
 @EqualsAndHashCode
@@ -54,12 +52,12 @@ public class ArticleCollectionDto implements Serializable {
     public static ArticleCollectionDto from(final Article article,
                                             final EncryptedTitle articleKey) {
 
-        final var datetime = article.getDatetime().convertToTimestamp();
+        final var datetime = article.getTimestamp();
 
         return ArticleCollectionDto.builder()
                 .articleKey(articleKey.toString())
-                .title(article.getOriginalTitle().toString())
-                .link(article.getLink().toString())
+                .title(article.getTitle())
+                .link(article.getLink())
                 .datetime(datetime)
                 .build();
     }

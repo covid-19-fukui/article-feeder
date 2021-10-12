@@ -1,8 +1,7 @@
 package covid.fukui.rss.articlefeeder.domain.repository.db;
 
-import covid.fukui.rss.articlefeeder.domain.model.article.Article;
-import covid.fukui.rss.articlefeeder.domain.model.type.Count;
-import reactor.core.publisher.Flux;
+import covid.fukui.rss.articlefeeder.domain.model.article.Articles;
+import covid.fukui.rss.articlefeeder.domain.model.article.SavedArticleCount;
 import reactor.core.publisher.Mono;
 
 public interface FirestoreRepository {
@@ -13,5 +12,5 @@ public interface FirestoreRepository {
      * @param articleCollections 保存対象の記事情報
      * @return 更新された記事の件数
      */
-    Mono<Count> insertBulkArticle(final Flux<Article> articleCollections);
+    Mono<SavedArticleCount> insertBulkArticle(final Articles articleCollections);
 }

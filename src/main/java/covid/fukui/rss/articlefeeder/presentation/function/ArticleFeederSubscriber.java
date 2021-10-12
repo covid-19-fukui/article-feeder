@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @Configuration
@@ -29,7 +28,7 @@ public class ArticleFeederSubscriber {
         return message -> {
             log.info("更新開始");
 
-            articleService.feedArticles().onErrorResume(Mono::error).block();
+            articleService.feedArticles();
 
             log.info("更新終了");
         };

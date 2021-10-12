@@ -1,15 +1,16 @@
 package covid.fukui.rss.articlefeeder.domain.model.type
 
+import covid.fukui.rss.articlefeeder.domain.model.article.SavedArticleCount
 import covid.fukui.rss.articlefeeder.exception.InvalidArgumentException
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class CountSpec extends Specification {
+class SavedArticleCountSpec extends Specification {
 
     @Unroll
     final "ファクトリメソッド #caseName"() {
         when:
-        final sut = Count.from(value)
+        final sut = SavedArticleCount.from(value)
 
         then:
         sut.value == expected
@@ -22,7 +23,7 @@ class CountSpec extends Specification {
     @Unroll
     final "ファクトリメソッド - 例外発生 - #caseName"() {
         when:
-        Count.from(value)
+        SavedArticleCount.from(value)
 
         then:
         final exception = thrown(InvalidArgumentException)

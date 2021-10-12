@@ -25,7 +25,9 @@ public class EncryptedTitle extends Title {
      */
     @NonNull
     public static EncryptedTitle from(final String encrypted) throws InvalidArgumentException {
-        if (SHA256_PATTERN.matcher(encrypted).matches()) {
+        final var isWordEncryptedSha256 = SHA256_PATTERN.matcher(encrypted).matches();
+
+        if (isWordEncryptedSha256) {
             return new EncryptedTitle(encrypted);
         }
 

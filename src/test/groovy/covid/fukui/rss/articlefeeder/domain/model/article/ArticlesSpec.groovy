@@ -38,7 +38,7 @@ class ArticlesSpec extends Specification {
 
 
         then:
-        sut.filterCovid19AsFlux().collectList().block() == [
+        sut.filterCovid19().collectList().block() == [
                 new Article(new OriginalTitle("コロナ"), new Link("https://localhost2"), new DateTime(LocalDateTime.of(2021, 07, 02, 00, 00, 00)))
         ]
 

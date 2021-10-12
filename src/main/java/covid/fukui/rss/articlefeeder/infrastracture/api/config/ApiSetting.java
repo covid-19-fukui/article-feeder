@@ -2,13 +2,17 @@ package covid.fukui.rss.articlefeeder.infrastracture.api.config;
 
 import java.io.Serializable;
 import java.time.Duration;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * API設定値
  */
-@Data
-public class ApiSetting implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+class ApiSetting implements Serializable {
 
     private static final long serialVersionUID = 2591264824531899180L;
 

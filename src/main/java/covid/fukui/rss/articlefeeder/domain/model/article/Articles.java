@@ -1,10 +1,15 @@
 package covid.fukui.rss.articlefeeder.domain.model.article;
 
+import covid.fukui.rss.articlefeeder.exception.InvalidArgumentException;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * 記事コレクションドメイン
@@ -13,7 +18,7 @@ import reactor.core.publisher.Flux;
 @ToString
 public class Articles {
 
-    private final Flux<Article> articles;
+    private final List<Article> articles;
 
     /**
      * 記事情報リストのファクトリメソッド
@@ -21,7 +26,7 @@ public class Articles {
      * @return 記事コレクションドメイン
      */
     @NonNull
-    public static Articles from(final Flux<Article> articleList) {
+    public static Articles from(final List<Article> articleList) {
         return new Articles(articleList);
     }
 
@@ -31,7 +36,32 @@ public class Articles {
      * @return コロナウイルス関連記事リスト(Flux)
      */
     @NonNull
-    public Flux<Article> filterCovid19AsFlux() {
-        return articles.filter(Article::isTopicOfCovid19);
+    public Articles filterCovid19() {
+        final var articleFilteredCovid19 =
+                articles.stream().filter(Article::isTopicOfCovid19).collect(Collectors.toList());
+
+        return new Articles(articleFilteredCovid19);
+    }
+
+    @NonNull
+    public Stream<Article> asStream() {
+        return articles.stream();
+    }
+
+    /**
+     * MonoをブロッキングしてからArticlesを取得する
+     *
+     * @param articlesMono Mono
+     * @return Articles
+     */
+    @NonNull
+    public static Articles fromMonoSync(final Mono<Articles> articlesMono) {
+        final var articles = articlesMono.block();
+
+        if (Objects.isNull(articles)) {
+            throw new InvalidArgumentException("monoがnullです");
+        }
+
+        return articles;
     }
 }

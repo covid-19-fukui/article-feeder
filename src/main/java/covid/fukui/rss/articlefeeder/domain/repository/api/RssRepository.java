@@ -1,7 +1,7 @@
 package covid.fukui.rss.articlefeeder.domain.repository.api;
 
-import covid.fukui.rss.articlefeeder.domain.model.article.Article;
-import reactor.core.publisher.Flux;
+import covid.fukui.rss.articlefeeder.domain.model.article.Articles;
+import reactor.core.publisher.Mono;
 
 public interface RssRepository {
 
@@ -10,5 +10,5 @@ public interface RssRepository {
      *
      * @return 記事情報のリスト(Flux)
      */
-    Flux<Article> getArticles();
+    Mono<Articles> getArticles();
 }

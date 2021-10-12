@@ -1,13 +1,12 @@
 package covid.fukui.rss.articlefeeder.infrastracture.api.repositoryimpl;
 
-import covid.fukui.rss.articlefeeder.domain.model.article.Article;
+import covid.fukui.rss.articlefeeder.domain.model.article.Articles;
 import covid.fukui.rss.articlefeeder.domain.repository.api.RssRepository;
 import covid.fukui.rss.articlefeeder.exception.FailedFetchArticleException;
-import covid.fukui.rss.articlefeeder.infrastracture.api.dto.RssResponse;
+import covid.fukui.rss.articlefeeder.infrastracture.api.dto.rss.RssResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -23,16 +22,13 @@ public class RssRepositoryImpl implements RssRepository {
      * {@inheritDoc}
      */
     @Override
-    public Flux<Article> getArticles() {
+    public Mono<Articles> getArticles() throws FailedFetchArticleException {
 
-        final Mono<RssResponse> articlesMono =
-                rssClient.get().retrieve().bodyToMono(RssResponse.class).onErrorResume(
-                        exception -> Mono.error(new FailedFetchArticleException("記事の取得に失敗しました:",
-                                exception)));
+        final var rssResponseMono =
+                rssClient.get().retrieve().bodyToMono(RssResponse.class)
+                        .onErrorResume(exception -> Mono.error(
+                                new FailedFetchArticleException("記事の取得に失敗しました:", exception)));
 
-        return articlesMono.map(RssResponse::getChannel)
-                .map(RssResponse.Channel::getItems)
-                .flatMapMany(Flux::fromIterable)
-                .map(RssResponse.Item::convertToArticle);
+        return rssResponseMono.map(RssResponse::toArticles);
     }
 }

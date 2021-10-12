@@ -1,5 +1,6 @@
 package covid.fukui.rss.articlefeeder.domain.model.article;
 
+import com.google.cloud.Timestamp;
 import covid.fukui.rss.articlefeeder.domain.model.constant.Keyword;
 import covid.fukui.rss.articlefeeder.domain.model.type.DateTime;
 import covid.fukui.rss.articlefeeder.domain.model.type.Link;
@@ -17,13 +18,13 @@ import org.springframework.lang.NonNull;
  */
 @Builder(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
-@Getter
 @ToString
 public class Article implements Serializable {
 
     private static final long serialVersionUID = -38646047329248286L;
 
     @NonNull
+    @Getter
     private final OriginalTitle originalTitle;
 
     @NonNull
@@ -54,6 +55,18 @@ public class Article implements Serializable {
      * @return キーワードを含む場合、trueを返す
      */
     public boolean isTopicOfCovid19() {
-        return Keyword.includeKeyword(originalTitle.toString());
+        return Keyword.includeKeyword(originalTitle);
+    }
+
+    public Timestamp getTimestamp() {
+        return datetime.convertToTimestamp();
+    }
+
+    public String getTitle() {
+        return originalTitle.toString();
+    }
+
+    public String getLink() {
+        return link.toString();
     }
 }
